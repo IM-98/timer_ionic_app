@@ -1,0 +1,7 @@
+{
+  "name": "teeth_timer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
