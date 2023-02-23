@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Paramètres
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,27 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Paramètres</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list class="form" [formGroup]="settingsForm">
+    <ion-item>
+      <ion-label>Nombre de zones</ion-label>
+      <ion-input type="number" min="0" max="60" placeholder=15 formControlName="numberOfZone" value={{numberOfZone}}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Temps de pause</ion-label>
+      <ion-input type="number" min="0" max="60" placeholder=6 formControlName="pauseTime" value={{pauseTime}}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Durée de brossage</ion-label>
+      <ion-input type="number" min="0" max="60" placeholder=16 formControlName="brushingTime" value={{brushingTime}}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Nom</ion-label>
+      <ion-input placeholder="John Doe" formControlName="name" value={{name}}></ion-input>
+    </ion-item>
+    <ion-button color="tertiary" shape="round" (click)="submitForm()"><ion-icon name="download-outline" ></ion-icon></ion-button>
+    <ion-button color="tertiary" shape="round" (click)="resetParam()"><ion-icon name="refresh-circle-outline"></ion-icon></ion-button>
+  </ion-list>
 </ion-content>

@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.moi.teethtimer',
   appName: 'teeth_timer',
   webDir: 'www',
   bundledWebRuntime: false
