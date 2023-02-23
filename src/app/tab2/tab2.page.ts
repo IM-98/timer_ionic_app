@@ -9,13 +9,16 @@ import { Preferences } from '@capacitor/preferences';
 })
 export class Tab2Page implements OnInit {
   settingsForm!: FormGroup
-
+  // injection de la dépendence FormBuilder
   constructor(private formbuilder: FormBuilder) {}
+
+  // initialisation des variables nécessaires à la récupération des données
   numberOfZone!: number;
   pauseTime!: number;
   brushingTime!: number;
   name!: string;
 
+  // Au chargement de la page on récupère ce les paramètres stocké en mémoire
   async ionViewWillEnter() {
     this.numberOfZone = parseInt((await Preferences.get({ key: 'numberOfZone' })).value!, 10) ;
     this.pauseTime = parseInt((await Preferences.get({ key: 'pauseTime' })).value!, 10);
@@ -23,6 +26,7 @@ export class Tab2Page implements OnInit {
     this.name = (await Preferences.get({ key: 'name' })).value!
   }
 
+  // enregistrement de la valeur des inputs en mémoire
   async saveSettings() {
     await Preferences.set({
       key: 'numberOfZone', value: JSON.stringify(this.settingsForm.get("numberOfZone")?.value),
@@ -37,7 +41,7 @@ export class Tab2Page implements OnInit {
       key: 'name', value: this.settingsForm.get("name")?.value,
     })
   }
-
+  // clear de la mémoire
   async resetParam(){
     await Preferences.remove({ key: 'name' });
     await Preferences.remove({ key: 'pauseTime' });
@@ -48,6 +52,7 @@ export class Tab2Page implements OnInit {
 
   ngOnInit(): void {
 
+    //création du formulaire réactif et de la validation
     this.settingsForm = this.formbuilder.group({
       numberOfZone: ['', [
         Validators.required,
@@ -63,11 +68,12 @@ export class Tab2Page implements OnInit {
       ]],
       name: ['', [
         Validators.required,
+        Validators.pattern("/^[a-z ,.'-]+$/i")
       ]]
     })
   }
 
-  
+  // soumission du formulaire qui enregistre les paramètres
   submitForm() {
     if (!this.settingsForm.valid) {
       console.log('error')
@@ -76,9 +82,8 @@ export class Tab2Page implements OnInit {
       console.log(this.settingsForm.controls['brushingTime'].errors)
       console.log(this.settingsForm.controls['numberOfZone'].errors)
     } else {
-      console.log(this.settingsForm.value)
+      console.log("success")
       this.saveSettings()
-      console.log(this.settingsForm.get("brushingTime")?.value)
     }
   }
 

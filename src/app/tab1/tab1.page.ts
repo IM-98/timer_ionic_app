@@ -9,6 +9,7 @@ import { Preferences } from '@capacitor/preferences';
 
 
 export class Tab1Page {
+  // initialisation des variables nécessaires à la récupération des données + les timers
     minutes: number = 0;
     seconds: number = 0;
     isRunning: boolean = false;
@@ -21,6 +22,7 @@ export class Tab1Page {
     timerPerZone: any
     pauseTimer: any
   
+    // Au chargement de la page on récupère ce les paramètres stocké en mémoire
     async ionViewWillEnter() {
       this.numberOfZone = parseInt((await Preferences.get({ key: 'numberOfZone' })).value!, 10) ;
       this.pauseTime = parseInt((await Preferences.get({ key: 'pauseTime' })).value!, 10);
@@ -30,17 +32,22 @@ export class Tab1Page {
   
     start() {
       if (!this.isRunning) {
+        //si le temps de pause est écoulé, on détruit le timer correspondant à pauseTime
         if(this.pauseTimer){
           clearTimeout(this.pauseTimer)
         }
         this.isRunning = true;
         console.log("is running")
+        //Lorsque le timer démarre les secondes s'incrémente
         this.timer = setInterval(() => {
           this.seconds++;
+          //si le nombre de seconde est égal au temps de brossage et que la zone n'est pas la derniere
           if (this.seconds === this.brushingTime && !(this.currentZone === this.numberOfZone)) {
+            //on incrémente la zone actuelle et on marque la pause
             this.currentZone++
             this.respectPauseTime()
           }
+          // si la zone est la dernière on reset le timer
           if(this.currentZone === this.numberOfZone){
             clearInterval(this.timer)
             clearTimeout(this.pauseTimer)
@@ -61,7 +68,7 @@ export class Tab1Page {
         clearInterval(this.timer);
       }
     }
-
+    // on appelle la pause() puis start() une fois le temps de pause écoulé
     respectPauseTime(){
       this.pause()
       this.seconds = 0
