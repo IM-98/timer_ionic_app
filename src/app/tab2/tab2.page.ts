@@ -68,7 +68,7 @@ export class Tab2Page implements OnInit {
       ]],
       name: ['', [
         Validators.required,
-        Validators.pattern("/^[a-z ,.'-]+$/i")
+        Validators.pattern("^[a-z ,.'-]+$/i")
       ]]
     })
   }
